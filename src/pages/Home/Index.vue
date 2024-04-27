@@ -16,65 +16,70 @@ const moreDiscount = ref("");
 </script>
 
 <template>
-    <main class="max-w-screen-sm mx-auto backdrop-blur-xl bg-[#7FC771]/30 rounded-md p-4">
-        <p class="font-bold uppercase text-2xl border-b border-white pb-2">Form Natural Farm</p>
+    <main class="px-4">
+        <div class="max-w-screen-sm backdrop-blur-xl bg-[#7FC771]/30 rounded-md p-4 my-6 px-4 mx-auto shadow-xl">
+            <p class="font-bold uppercase text-2xl pb-4 pt-5 tracking-widest">Form Input Natural Farm</p>
 
-        <form action="" method="get" @submit.prevent="">
-            <div class="grid grid-cols-6 py-4 items-center gap-2 border-b border-white">
-                <div class="col-span-2">Pilih Customer</div>
-                <select name="customer" id="customer" v-model="selectedCustomer"
-                    class="col-span-4 rounded-md p-2 cursor-pointer outline-none shadow-sm">
-                    <option v-for="customer in customers" :key="customer.id" :value="customer.customer_name">
-                        {{ customer.customer_name }}
-                    </option>
-                </select>
-                <div class="col-span-2">Pilih Payment</div>
-                <select name="payment" id="payment" v-model="selectedPayment"
-                    class="col-span-4 rounded-md p-2 cursor-pointer outline-none shadow-sm">
-                    <option v-for="payment in payments" :key="payment.id" :value="payment.name">
-                        {{ payment.name }}
-                    </option>
-                </select>
-                <div class="col-span-2">Pilih Product</div>
-                <select name="product" id="product" v-model="selectedProduct"
-                    class="col-span-4 rounded-md p-2 cursor-pointer outline-none shadow-sm">
-                    <option v-for="product in products" :key="product.id" :value="product">
-                        {{ product.name }}
-                    </option>
-                </select>
-                <div class="col-span-2">Discount</div>
-                <div class="col-span-4 flex items-center gap-2">
-                    <!-- <input type="number" oninput="if(this.value.length >= 3 || this.value >= 100) this.value = 100" -->
-                    <input type="number" v-model="discount"
-                        class="rounded-md py-1 px-2.5 outline-none shadow-sm w-full">
-                    <span class="font-extrabold">%</span>
+            <form action="" method="get" @submit.prevent="">
+                <div class="grid grid-cols-1 md:grid-cols-6 pb-5 items-center gap-2">
+                    <div class="col-span-2">Pilih Customer</div>
+                    <select name="customer" id="customer" v-model="selectedCustomer"
+                        class="col-span-4 rounded-md p-3 cursor-pointer outline-none">
+                        <option v-for="customer in customers" :key="customer.id" :value="customer.customer_name">
+                            {{ customer.customer_name }}
+                        </option>
+                    </select>
+                    <div class="col-span-2">Pilih Payment</div>
+                    <select name="payment" id="payment" v-model="selectedPayment"
+                        class="col-span-4 rounded-md p-3 cursor-pointer outline-none">
+                        <option v-for="payment in payments" :key="payment.id" :value="payment.name">
+                            {{ payment.name }}
+                        </option>
+                    </select>
+                    <div class="col-span-2">Pilih Product</div>
+                    <select name="product" id="product" v-model="selectedProduct"
+                        class="col-span-4 rounded-md p-3 cursor-pointer outline-none">
+                        <option v-for="product in products" :key="product.id" :value="product">
+                            {{ product.name }}
+                        </option>
+                    </select>
+                    <div class="col-span-2">Discount</div>
+                    <div class="col-span-4 flex items-center gap-2">
+                        <input type="number" v-model="discount" class="rounded-md py-2 px-3 outline-none w-full">
+                        <span class="font-extrabold text-xl">%</span>
+                    </div>
+                    <div class="col-span-2">Input Discount Tambahan</div>
+                    <div class="col-span-4 flex items-center gap-2">
+                        <input type="number" v-model="moreDiscount" class="rounded-md py-2 px-3 outline-none w-full">
+                        <span class="font-extrabold text-xl">%</span>
+                    </div>
                 </div>
-                <div class="col-span-2">Input Discount Tambahan</div>
-                <div class="col-span-4 flex items-center gap-2">
-                    <input type="number" v-model="moreDiscount"
-                        class="rounded-md py-1 px-2.5 outline-none shadow-sm w-full">
-                    <span class="font-extrabold">%</span>
-                </div>
-            </div>
 
-            <div class="">
-                <p class="font-bold uppercase text-2xl border-b border-white pt-4 pb-2">Order</p>
-                <p>Customer: <span class="font-bold">{{ selectedCustomer }}</span></p>
-                <p>Payment: <span class="font-bold">{{ selectedPayment }}</span></p>
-                <p>Product: <span class="font-bold">{{ selectedProduct ? selectedProduct.name : '' }}</span></p>
-                <p>Harga:
-                    <span class="font-bold">
-                        {{ selectedProduct ? formatCurrency(selectedProduct.price, 'ID', 'IDR') : '' }}
+                <div class="mt-5 grid grid-cols-6 gap-2 border-t border-white">
+                    <p class="col-span-6 font-bold uppercase text-2xl pt-4 pb-2 tracking-widest">Order</p>
+                    <p class="col-span-2">Customer</p>
+                    <span class="col-span-4 font-semibold md:text-lg">: {{ selectedCustomer }}</span>
+                    <p class="col-span-2">Payment</p>
+                    <span class="col-span-4 font-semibold md:text-lg">: {{ selectedPayment }}</span>
+                    <p class="col-span-2">Product</p>
+                    <span class="col-span-4 font-semibold md:text-lg">: {{ selectedProduct ? selectedProduct.name : ''
+                        }}</span>
+                    <p class="col-span-2">Harga</p>
+                    <span class="col-span-4 font-semibold md:text-lg">
+                        : {{ selectedProduct ? formatCurrency(selectedProduct.price, 'ID', 'IDR') : '' }}
                     </span>
-                </p>
-                <p>Discount: <span class="font-bold">{{ discount }}%</span></p>
-                <p>Discount Tambahan: <span class="font-bold">{{ moreDiscount }}%</span></p>
-                <p>Total: <span class="font-bold">
-                        {{ calculateTotalWithDiscount(selectedProduct?.price, discount, moreDiscount) }}
+                    <p class="col-span-2">Discount</p>
+                    <span class="col-span-4 font-semibold md:text-lg">: {{ discount }}%</span>
+                    <p class="col-span-2">Discount Tambahan</p>
+                    <span class="col-span-4 font-semibold md:text-lg">: {{ moreDiscount }}%</span>
+                    <p class="col-span-2">Total</p>
+                    <span class="col-span-4 font-semibold text-lg md:text-xl">
+                        : {{ formatCurrency(calculateTotalWithDiscount(selectedProduct?.price, discount, moreDiscount),
+                            'ID', 'IDR') }}
                     </span>
-                </p>
-            </div>
-        </form>
+                </div>
+            </form>
+        </div>
     </main>
 </template>
 
