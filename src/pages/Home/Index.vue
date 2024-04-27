@@ -69,7 +69,10 @@ const moreDiscount = ref("");
                 </p>
                 <p>Discount: <span class="font-bold">{{ discount }}%</span></p>
                 <p>Discount Tambahan: <span class="font-bold">{{ moreDiscount }}%</span></p>
-                <p>Total: <span class="font-bold">{{ moreDiscount }}%</span></p>
+                <p>Total: <span class="font-bold">
+                        {{ calculateTotalWithDiscount(selectedProduct?.price, discount, moreDiscount) }}
+                    </span>
+                </p>
             </div>
         </form>
     </main>
@@ -115,16 +118,26 @@ export default {
                 currency: currencyCode,
             });
         },
-    },
-    computed: {
-        calcSum() {
-            let total = 0;
-            this.cartData.forEach((item, i) => {
-                total += item.price * item.qty;
-            });
-            return total;
+        calculateTotalWithDiscount(price: any, firstDiscount: any, secondDiscount: any) {
+            // Konversi persentase diskon pertama ke desimal
+            const firstDiscountDecimal = firstDiscount / 100;
+
+            // Hitung nilai diskon pertama
+            const firstDiscountAmount = price * firstDiscountDecimal;
+
+            // Konversi persentase diskon kedua ke desimal
+            const secondDiscountDecimal = secondDiscount / 100;
+
+            // Hitung nilai diskon kedua
+            const secondDiscountAmount = price * secondDiscountDecimal;
+
+            // Hitung total setelah kedua diskon
+            const totalPrice = price - firstDiscountAmount - secondDiscountAmount;
+
+            return totalPrice;
         }
-    };
+    }
+};
 </script>
 
 <style scoped></style>
